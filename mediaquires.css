@@ -48,56 +48,81 @@
   }
   
   @media screen and (max-width: 600px) {
+    body {
+      font-size: 1rem;
+      line-height: 1.5;
+      padding: 0 1rem;
+    }
+  
     #contact,
     footer {
-      height: 40vh;
+      height: auto;
+      padding-bottom: 2rem;
     }
+  
     #profile {
-      height: 83vh;
-      margin-bottom: 0;
+      height: auto;
+      margin-bottom: 1rem;
+      text-align: center;
     }
-    article {
-      font-size: 1rem;
-    }
-    footer nav {
-      height: fit-content;
-      margin-bottom: 2rem;
-    }
+  
     .about-containers,
     .contact-info-upper-container,
     .btn-container {
       flex-wrap: wrap;
+      gap: 1rem;
     }
+  
     .contact-info-container {
-      margin: 0;
+      margin: 0 auto;
+      text-align: center;
     }
+  
     .contact-info-container p,
     .nav-links li a {
       font-size: 1rem;
     }
+  
     .experience-sub-title {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
     }
+  
     .logo {
       font-size: 1.5rem;
     }
+  
     .nav-links {
       flex-direction: column;
       gap: 0.5rem;
       text-align: center;
     }
+  
     .section__pic-container {
-      width: auto;
-      height: 46vw;
+      width: 80%;
+      max-width: 300px;
+      height: auto;
       justify-content: center;
+      margin: 0 auto 1.5rem;
     }
+  
     .section__text__p2 {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
     }
+  
     .title {
-      font-size: 2rem;
+      font-size: 1.8rem;
+      text-align: center;
     }
+  
     .text-container {
       text-align: justify;
+      padding: 0 1rem;
+    }
+  
+    footer nav {
+      height: fit-content;
+      margin-bottom: 2rem;
     }
   }
+  
+  
