@@ -1,905 +1,380 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Swetha - Full Stack Developer</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
-
-        :root {
-            --primary: #3b82f6;
-            --secondary: #7c3aed;
-            --accent: #f472b6;
-            --dark: #0f172a;
-            --darker: #020617;
-            --light: #f8fafc;
-            --muted: #94a3b8;
-            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
-            --glass: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.05);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--darker);
-            color: var(--light);
-            line-height: 1.6;
-        }
-
-        section {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease;
-        }
-
-        section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        /* Modern Navigation */
-        nav {
-            background: rgba(2, 6, 23, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            /* background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent; */
-            cursor: pointer;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: var(--light);
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 2px;
-            background: var(--gradient);
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 80%;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding-top: 80px;
-            position: relative;
-            background: 
-                radial-gradient(600px circle at top right, rgba(59, 130, 246, 0.15), transparent),
-                radial-gradient(600px circle at bottom left, rgba(124, 58, 237, 0.15), transparent);
-        }
-
-        .hero-content {
-            display: flex;
-            align-items: center;
-            gap: 4rem;
-        }
-
-        .hero-text {
-            flex: 1;
-        }
-
-        .hero-title {
-            font-size: 4rem;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(to right, var(--light), var(--muted));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-subtitle {
-            font-size: 1.5rem;
-            color: var(--muted);
-            margin-bottom: 2rem;
-        }
-
-        .hero-image {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .profile-image {
-            width: 300px;
-            height: 300px;
-            border-radius: 30px;
-            overflow: hidden;
-            position: relative;
-            border: 2px solid var(--glass);
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .profile-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Buttons */
-        .btn {
-            background: var(--gradient);
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        /* About Section */
-        .about {
-            padding: 8rem 0;
-            background: radial-gradient(circle at center, rgba(59, 130, 246, 0.1), transparent 70%);
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            text-align: center;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            color: var(--muted);
-            margin-bottom: 4rem;
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 4rem;
-        }
-
-        .about-text {
-            background: rgba(15, 23, 42, 0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
-        }
-
-        .about-links {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .social-link {
-            background: rgba(15, 23, 42, 0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 1rem;
-            color: var(--light);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .social-link:hover {
-            transform: translateX(10px);
-            background: var(--gradient);
-        }
-
-        /* Skills Section */
-        .skills {
-            padding: 8rem 0;
-            background: radial-gradient(circle at center, rgba(124, 58, 237, 0.1), transparent 70%);
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .skill-card {
-            background: rgba(15, 23, 42, 0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
-            transition: transform 0.3s ease;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .skill-title {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--light);
-        }
-
-        .skill-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .skill-item {
-            background: var(--glass);
-            padding: 0.8rem 1.5rem;
-            border-radius: 12px;
-            color: var(--light);
-            border: 1px solid var(--glass-border);
-            transition: all 0.3s ease;
-        }
-
-        .skill-item:hover {
-            background: var(--gradient);
-            transform: translateY(-3px);
-        }
-
-        /* Projects Section */
-        .projects {
-            padding: 8rem 0;
-            background: radial-gradient(circle at center, rgba(59, 130, 246, 0.1), transparent 70%);
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .project-card {
-            background: rgba(15, 23, 42, 0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .project-image {
-            /* position: relative;
-            height: 200px; */
-            /* overflow: hidden; */
-        }
-
-        .project-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .project-card:hover .project-image img {
-            transform: scale(1.05);
-        }
-
-        .project-content {
-            padding: 2rem;
-        }
-
-        .project-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--light);
-        }
-
-        .project-description {
-            color: var(--muted);
-            margin-bottom: 1.5rem;
-        }
-
-        .project-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .project-tag {
-            background: var(--glass);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
-        }
-
-        /* Contact Section */
-        .contact {
-            padding: 8rem 0;
-            background: radial-gradient(circle at center, rgba(124, 58, 237, 0.1), transparent 70%);
-        }
-
-        .contact-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .contact-card {
-            background: rgba(15, 23, 42, 0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .contact-icon {
-            font-size: 1.5rem;
-            color: var(--primary);
-        }
-
-        .contact-form {
-            background: rgba(15, 23, 42, 0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--light);
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 1rem;
-            background: rgba(15, 23, 42, 0.3);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            color: var(--light);
-            font-family: inherit;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-        }
-
-        /* Animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--gradient);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            display: none;
-            animation: slideIn 0.3s ease;
-            z-index: 1000;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 968px) {
-            .hero-content {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .hero-title {
-                font-size: 3rem;
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hero-title {
-                font-size: 2.5rem;
-            }
-
-            .profile-image {
-                width: 250px;
-                height: 250px;
-            }
-        }/* Mobile Menu */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--light);
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 1001;
-        }
-
-        .mobile-menu {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 100%;
-            height: 100vh;
-            background: var(--darker);
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: right 0.3s ease;
-            z-index: 1000;
-        }
-
-        .mobile-menu.active {
-            right: 0;
-        }
-
-        .mobile-menu a {
-            color: var(--light);
-            text-decoration: none;
-            font-size: 1.5rem;
-            margin: 1rem 0;
-            position: relative;
-        }
-
-        @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div id="toast" class="toast"></div>
-
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <div class="logo">SWETHA</div>
-            <div class="nav-links">
-                <a href="#home" class="nav-link">Home</a>
-                <a href="#about" class="nav-link">About</a>
-                <a href="#skills" class="nav-link">Skills</a>
-                <a href="#projects" class="nav-link">Projects</a>
-                <a href="#contact" class="nav-link">Contact</a>
-            </div>
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="mediaquries.css" />
+  </head>
+  <body>
+    <nav id="desktop-nav">
+      <div class="logo">SWETHA</div>
+      <div>
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#experience">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
     </nav>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu">
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-    </div>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1 class="hero-title">Full Stack developer</h1>
-                    <p class="hero-subtitle">Crafting beautiful web experiences with modern technologies</p>
-                    <!-- <a href="https://resume-builder-test-new.masaischool.com/resume/public?resumeId=67a64b73dae27d0d64f61a0f" class="btn" onclick="downloadResume()"> -->
-                        <a target="_blank"  href="./assests/SheelamSwetha-WebEngineer-WdoA - Copy.pdf" class="btn" OnClick="downloadResume()"> 
-                        <i class="fas fa-download"></i>
-                        Download Resume
-                    </a>
-                </div>
-                <div class="hero-image">
-                    <div class="profile-image">
-                        <img src="./assests/WhatsApp Image 2024-03-24 at 20.12.45_282cc76a.jpg" alt="Priya Tripathi">
-                    </div>
-                </div>
-            </div>
+    <nav id="hamburger-nav">
+      <div class="logo">SWETHA</div>
+      <div class="hamburger-menu">
+        <div class="hamburger-icon" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
+        <div class="menu-links">
+          <li><a href="#about" onclick="toggleMenu()">About</a></li>
+          <li><a href="#experience" onclick="toggleMenu()">Skills</a></li>
+          <li><a href="#projects" onclick="toggleMenu()">Projects</a></li>
+          <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
+        </div>
+      </div>
+    </nav>
+    <section id="profile">
+      <div class="section__pic-container">
+        <img src="./assests/Screenshot 2025-02-25 205619.png" alt="John Doe profile picture" />
+      </div>
+      <div class="section__text">
+        <p class="section__text__p1">Hello, I'm</p>
+        <h1 class="title">SWETHA</h1>
+        <p class="section__text__p2">Full Stack Web Developer</p>
+        <div class="btn-container">
+          <button
+            class="btn btn-color-2"
+             onclick="window.open('./assests/SheelamSwetha-WebEngineer-WdoA - Copy.pdf')"
+          >
+            Download CV
+          </button>
+          <button class="btn btn-color-1" onclick="location.href='./#contact'">
+            Contact Info
+          </button>
+        </div>
+        <div id="socials-container">
+          <img
+            src="./assests/linkedin.png"
+            alt="My LinkedIn profile"
+            class="icon"
+            onclick="location.href='https://www.linkedin.com/in/swetha-sheelam-150241250'"
+          />
+          <img
+            src="./assests/github.png"
+            alt="My Github profile"
+            class="icon"
+            onclick="location.href='https://github.com/SwethaSheelam'"
+          />
+        </div>
+      </div>
     </section>
+    <section id="about">
+      <p class="section__text__p1">Get To Know More</p>
+      <h1 class="title">About Me</h1>
+      <div class="section-container">
+        
 
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <p class="section-subtitle">Passionate about creating meaningful web applications</p>
-            
-            <div class="about-content">
-                <div class="about-text">
-                    <p>As a Full Stack Developer specializing in Web engineering, I bring creativity and technical expertise to every project. With a strong foundation in modern JavaScript and responsive design principles, I transform complex requirements into elegant solutions that users love.</p>
-                    <br>
-                    <p>My experience with modern web technologies and continuous learning approach keeps me at the forefront of emerging technologies, allowing me to implement innovative solutions that push the boundaries of web development.</p>
-                </div>
+
+        <div class="about-details-container">
+          <div class="about-containers">
+            <div class="details-container">
+              <img
+                src="./assests/experience.png"
+                alt="Experience icon"
+                class="icon"
+              />
+              <h3></h3>
+              <p><br />Full Stack Web Developer</p>
+            </div>
+            <div class="details-container">
+              <img
+                src="./assests/education.png"
+                alt="Education icon"
+                class="icon"
+              />
+              <h3>Education</h3>
+              <p>B.Tech with 8.2 CGPA<br />Vignan's Institute Of Management and Tecchnology For Women</p>
+            </div>
+          </div>
+          <div class="text-container">
+            <p>
+              I'm a passionate Full Stack Developer with expertise in 
+              WebEngineering, HTML, CSS, and Bootstrap ,Nodejs,Expressjs . I build
+               responsive, user-friendly front-end interfaces and robust back-end systems. With strong knowledge of databases, I focus on creating scalable, efficient applications.
+                I’m always eager to learn new technologies and take on new challenges. Let’s connect and build something great together!
+
+
+            </p>
+          </div>
+        </div>
+      </div>
+      <img
+        src="./assests/arrow.png"
+        alt="Arrow icon"
+        class="icon arrow"
+        onclick="location.href='./#experience'"
+      />
+    </section>
+    <section id="experience">
+      <p class="section__text__p1">Explore My</p>
+      <h1 class="title">Skills</h1>
+      <div class="experience-details-container">
+        <div class="about-containers">
+          <div class="details-container">
+            <h2 class="experience-sub-title">Frontend Development</h2>
+            <div class="article-container">
+              <article>
+                <img
+                  src="./assests/checkmark.png"
+                  alt="Experience icon"
+                  class="icon"
+                />
+                <div>
+                  <h3>HTML</h3>
                 
-                <div class="about-links">
-                    <a href="tel:7989432557" class="social-link">
-                        <i class="fas fa-phone"></i>
-                        <span>+91 7989432557</span>
-                    </a>
-                    <a href="mailto:sheelamswetha5@gmail.com" class="social-link">
-                        <i class="fas fa-envelope"></i>
-                        <span>Email Me</span>
-                    </a>
-                    <a href="https://www.linkedin.com/in/swetha-sheelam-150241250" target="_blank" class="social-link">
-                        <i class="fab fa-linkedin"></i>
-                        <span>LinkedIn</span>
-                    </a>
-                    <a href="https://github.com/SwethaSheelam" target="_blank" class="social-link">
-                        <i class="fab fa-github"></i>
-                        <span>GitHub</span>
-                    </a>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills" class="skills">
-        <div class="container">
-            <h2 class="section-title">Technical Skills</h2>
-            <p class="section-subtitle">My professional toolkit</p>
-            
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <h3 class="skill-title">Frontend Development</h3>
-                    <div class="skill-list">
-                        <span class="skill-item">Web development</span>
-                        <span class="skill-item">JavaScript (ES6+)</span>
-                        
-                        <span class="skill-item">HTML5</span>
-                        <span class="skill-item">CSS3</span>
-                        
-                    </div>
+              </article>
+              <article>
+                <img
+                  src="./assests/checkmark.png"
+                  alt="Experience icon"
+                  class="icon"
+                />
+                <div>
+                  <h3>CSS</h3>
+              
                 </div>
-
-                <div class="skill-card">
-                    <h3 class="skill-title">Backend & Tools</h3>
-                    <div class="skill-list">
-                        <span class="skill-item">Node.js</span>
-                        <span class="skill-item">RESTful APIs</span>
-                        <span class="skill-item">Git</span>
-                    </div>
-                </div>
-
-                <div class="skill-card">
-                    <h3 class="skill-title">Other Skills</h3>
-                    <div class="skill-list">
-                        <span class="skill-item">Python</span>
-                        <span class="skill-item">Django</span>
-                        <span class="skill-item">AWS</span>
-                        <span class="skill-item">Core Java</span>
-                        
-                       
-                       
-                      
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="projects">
-        <div class="container">
-            <h2 class="section-title">Featured Projects</h2>
-            <p class="section-subtitle">Some of my recent work</p>
-            
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="./assests/travel.png" alt="Travel-Yaari">
-                    </div>
-                    
-                    <div class="project-content">
-                        <h3 class="project-title">Travel Yaari</h3>
-                        <p class="project-description">
-                         
-                        <div class="project-tags">
-                            <span class="project-tag">HTML</span>
-                            <span class="project-tag">CSS</span>
-                            <span class="project-tag">BootStrap</span>
-                            
-                        </div>
-                        <div class="project-links">
-                            <a href="https://idyllic-seahorse-be7f92.netlify.app/" class="btn">Live Demo</a>
-                            <a href="https://github.com/SwethaSheelam/travel" class="btn" style="margin-left: 1rem;">Source Code</a>
-                        </div>
-                    </div>
-                      
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="./assests/Screenshot 2025-02-17 172446.png" alt="Yummy Food">
-                    </div>
-                    
-                    <div class="project-content">
-                        <h3 class="project-title">Yummy Food</h3>
-                        <p class="project-description">
-                         
-                        <div class="project-tags">
-                            <span class="project-tag">HTML</span>
-                            <span class="project-tag">CSS</span>
-                            <span class="project-tag">BootStrap</span>
-                            
-                        </div>
-                        <div class="project-links">
-                            <a href="https://splendid-sundae-99ac7b.netlify.app/" class="btn">Live Demo</a>
-                            <a href="https://github.com/SwethaSheelam/Yummy-Food" class="btn" style="margin-left: 1rem;">Source Code</a>
-                        </div>
-                    </div>
-                </div>
-
+              </article>
+              <article>
+                <img
+                  src="./assests/checkmark.png"
+                  alt="Experience icon"
+                  class="icon"
+                />
+                <div>
+                  <h3>Bootstrap</h3>
                 
-    </section>
-    
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <p class="section-subtitle">Let's work together</p>
-            
-            <div class="contact-container">
-                <div class="contact-info">
-                    <div class="contact-card">
-                        <i class="fas fa-map-marker-alt contact-icon"></i>
-                        <div>
-                            <h3>Location</h3>
-                            <p>Hyderabad, Telangana, India</p>
-                        </div>
-                    </div>
-                    <div class="contact-card">
-                        <i class="fas fa-envelope contact-icon"></i>
-                        <div>
-                            <h3>Email</h3>
-                            <p>sheelamswetha5@gmail.com</p>
-                        </div>
-                    </div>
-                    <div class="contact-card">
-                        <i class="fas fa-phone contact-icon"></i>
-                        <div>
-                            <h3>Phone</h3>
-                            <p>+91 7989432557</p>
-                        </div>
-                    </div>
                 </div>
+              </article>
+              <article>
+                <img
+                  src="./assests/checkmark.png"
+                  alt="Experience icon"
+                  class="icon"
+                />
+                <div>
+                  <h3>JavaScript</h3>
+               
+                </div>
+              </article>
+              
 
-                <form class="contact-form" onsubmit="handleSubmit(event)">
-                    <div class="form-group">
-                        <label for="name">Your Name</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Your Email</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" rows="5" required></textarea>
-                    </div>
-                    <button type="submit" class="btn">Send Message</button>
-                </form>
+
+
             </div>
+          </div>
+          <div class="details-container">
+            <h2 class="experience-sub-title">Backend Development</h2>
+            <div class="article-container">
+              <article>
+                <img
+                  src="./assests/checkmark.png"
+                  alt="Experience icon"
+                  class="icon"
+                />
+                <div>
+                  <h3>Python(Django)</h3>
+                
+                </div>
+              </article>
+              <article>
+                <img
+                  src="./assests/checkmark.png"
+                  alt="Experience icon"
+                  class="icon"
+                />
+                <div>
+                  <h3>Expressjs</h3>
+                
+                </div>
+              </article>
+              <article>
+                <img
+                  src="./assests/checkmark.png"
+                  alt="Experience icon"
+                  class="icon"
+                />
+                <div>
+                  <h3>Nodejs</h3>
+                 
+                </div>
+              </article>
+              <article>
+                <img
+                  src="./assests/checkmark.png"
+                  alt="Experience icon"
+                  class="icon"
+                />
+                <div>
+                  <h3>Git</h3>
+                
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="details-container">
+            <h2 class="experience-sub-title">Database</h2>
+            <div class="article-container">
+              <article>
+                <img
+                  src="./assests/checkmark.png"
+                  alt="Experience icon"
+                  class="icon"
+                />
+                <div>
+                  <h3>SQL</h3>
+                 
+                </div>
+              </article>
+              <article>
+                <img
+                  src="./assests/checkmark.png"
+                  alt="Experience icon"
+                  class="icon"
+                />
+                <div>
+                  <h3>MySQL</h3>
+                 
+                </div>
+              </article>
+              <article>
+                <img
+                  src="./assests/checkmark.png"
+                  alt="Experience icon"
+                  class="icon"
+                />
+                <div>
+                  <h3>Oracle</h3>
+                 
+                </div>
+              </article>
+            
+            </div>
+          </div>
         </div>
+      </div>
+      <img
+        src="./assests/arrow.png"
+        alt="Arrow icon"
+        class="icon arrow"
+        onclick="location.href='./#projects'"
+      />
     </section>
-
-    <script>
-        // Intersection Observer for scroll animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('section').forEach(section => {
-            observer.observe(section);
-        });
-
-        // Mobile menu functionality
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const mobileMenu = document.querySelector('.mobile-menu');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('active');
-            mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
-            mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
-        });
-
-        // Close mobile menu when clicking a link
-        document.querySelectorAll('.mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
-                mobileMenuBtn.querySelector('i').classList.add('fa-bars');
-                mobileMenuBtn.querySelector('i').classList.remove('fa-times');
-            });
-        });
-
-        // Resume download functionality
-       
-            function downloadResume() {
-            fetch('./assests/SheelamSwetha-WebEngineer-WdoA - Copy.pdf') // Ensure the file exists in the same directory
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('File not found');
-                }
-                return response.blob();
-            })
-            .then(blob => {
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = './assests/SheelamSwetha-WebEngineer-WdoA - Copy.pdf';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            })
-            .catch(error => {
-                alert('Error: Resume file not found! Ensure it is correctly placed.');
-                console.error(error);
-            });
-        }
-            const toast = document.getElementById('toast');
-            toast.textContent = 'Downloading resume...';
-            toast.style.display = 'block';
-            
-            setTimeout(() => {
-                toast.style.display = 'none';
-            }, 3000);
-       
-
-        // Contact form handling
-        function handleSubmit(event) {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const data = Object.fromEntries(formData);
-            
-            // Show success message
-            const toast = document.getElementById('toast');
-            toast.textContent = 'Message sent successfully!';
-            toast.style.display = 'block';
-            
-            setTimeout(() => {
-                toast.style.display = 'none';
-            }, 3000);
-            
-            // Reset form
-            event.target.reset();
-        }
-
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
-</body>
+    <section id="projects">
+      <p class="section__text__p1">Browse My Recent</p>
+      <h1 class="title">Projects</h1>
+      <div class="experience-details-container">
+        <div class="about-containers">
+          <div class="details-container color-container">
+            <div class="article-container">
+              <img
+                src="./assests/travel.png"
+                alt="Project 1"
+                class="project-img"
+              />
+            </div>
+            <h2 class="experience-sub-title project-title">Travel Yaari </h2>
+            <p class="project-paragraph">Designed and developed a user-friendly travel website, TravelYaari, utilizing HTML, CSS, and 
+              Bootstrap.Created a responsive and interactive user interface for a seamless user experience</p>
+            <div class="btn-container">
+              <button
+                class="btn btn-color-2 project-btn"
+                onclick="location.href='https://github.com/SwethaSheelam/travel'"
+              >
+                Github
+              </button>
+              <button
+              class="btn btn-color-2 project-btn"
+              onclick="location.href='https://idyllic-seahorse-be7f92.netlify.app/'"
+            >
+              Live Demo
+            </button>
+            </div>
+          </div>
+          <div class="details-container color-container">
+            <div class="article-container">
+              <img
+                src="./assests/Screenshot 2025-02-17 172446.png"
+                alt="Project 2"
+                class="project-img"
+              />
+            </div>
+            <h2 class="experience-sub-title project-title">Yummy Food</h2>
+            <p class="project-paragraph">This is Foodie application, built with HTML, CSS, and Bootstrap.Created a responsive webpage for selecting various foods</p>
+            <div class="btn-container">
+              <button
+                class="btn btn-color-2 project-btn"
+                onclick="location.href='https://github.com/SwethaSheelam/Yummy-Food'"
+              >
+                Github
+              </button>
+              <button
+                class="btn btn-color-2 project-btn"
+                onclick="location.href='https://splendid-sundae-99ac7b.netlify.app/'"
+              >
+                Live Demo
+              </button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      <img
+        src="./assests/arrow.png"
+        alt="Arrow icon"
+        class="icon arrow"
+        onclick="location.href='./#contact'"
+      />
+    </section>
+    <section id="contact">
+      <p class="section__text__p1">Get in Touch</p>
+      <h1 class="title">Contact Me</h1>
+      <div class="contact-info-upper-container">
+        <div class="contact-info-container">
+          <img
+            src="./assests/email.png"
+            alt="Email icon"
+            class="icon contact-icon email-icon"
+          />
+          <p><a href="mailto:sheelamswetha5@gmail.com">sheelamswetha5@gmail.com</a></p>
+        </div>
+        <div class="contact-info-container">
+          <img
+            src="./assests/linkedin.png"
+            alt="LinkedIn icon"
+            class="icon contact-icon"
+          />
+          <p><a href="https://www.linkedin.com/in/swetha-sheelam-150241250">LinkedIn</a></p>
+        </div>
+      </div>
+    </section>
+    <footer>
+      <nav>
+        <div class="nav-links-container">
+          <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+      </nav>
+      <p>Copyright &#169; 2025 SHEELAM SWETHA. All Rights Reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+  </body>
 </html>
